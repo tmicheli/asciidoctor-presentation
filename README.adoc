@@ -1,0 +1,2 @@
+TODO
+podman run -e ADOC_FILE='presentation.adoc' -v /home/tmicheli/git/misc/asciidoctor-presentation/slides:/slides:Z -p 2342:2342 localhost/asciidoctor/revealjs

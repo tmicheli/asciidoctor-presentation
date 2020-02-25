@@ -1,0 +1,20 @@
+= Example Presentation
+:revealjs_customtheme: style/redhat.css
+:icons: font
+:author: Tobias Michelis
+:customer: Example Customer
+:linkattrs:
+
+include::footer.adoc[]
+
+== Slide One
+
+Some text
+
+=== Slide One.one
+
+More text
+
+== Slide Two
+
+And even more text

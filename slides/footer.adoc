@@ -1,0 +1,17 @@
+[subs="attributes"]
+++++
+<script type="text/javascript">
+    window.addEventListener("load", function() {
+
+        revealDiv = document.querySelector("body div.reveal")
+        footer = document.getElementById("redhat-footer");
+        revealDiv.appendChild(footer);
+
+    } );
+</script>
+<div id="redhat-footer" class="footer">
+    <span class="element">{author}</span>
+    <span class="element">{customer}</span>
+    <span class="element"><img src=images/logo.png width='100px'></span>
+</div>
+++++
