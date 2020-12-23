@@ -1,10 +1,35 @@
-FROM ruby:latest
+FROM alpine:3.12
+
+LABEL MAINTAINER="Tobias Michelis <tobias.michelis@redhat.com>"
+
+ARG asciidoctor_revealjs_version=4.0.1
+ARG revealjs_version=3.9.2
+ENV ASCIIDOCTOR_REVEALJS_VERSION=${asciidoctor_revealjs_version}
+ENV REVEALJS_VERSION=${revealjs_version}
+
+
+# Installing the needed packages
+RUN apk add --no-cache \
+    git \
+    ruby \
+    ruby-etc
+
+RUN apk add --no-cache --virtual .rubymakedepends \
+    ruby-dev \
+    && gem install --no-document \
+        bundler \
+        webrick \
+    && apk del -r --no-cache .rubymakedepends
+
 WORKDIR /srv/presentation
-COPY Gemfile ./
-RUN gem install bundler && \
-  git clone -b 3.9.2 --depth 1 https://github.com/hakimel/reveal.js.git && \
-  bundle --path=.bundle/gems --binstubs=.bundle/bin
-CMD ln -s /srv/presentation/reveal.js /slides/reveal.js && \
-  bundle exec asciidoctor-revealjs /slides/${ADOC_FILE} && \
-  ruby -run -e httpd /slides -p 2342
+
+RUN echo -e "source 'https://rubygems.org'\n\ngem 'asciidoctor-revealjs' , '${ASCIIDOCTOR_REVEALJS_VERSION}'" > Gemfile
+
+RUN bundle config --local github.https true \
+    && bundle --path=.bundle/gems --binstubs=.bundle/.bin \
+    && git clone -b ${REVEALJS_VERSION} --depth 1 https://github.com/hakimel/reveal.js.git
+
+CMD ln -s /srv/presentation/reveal.js /slides/reveal.js \
+  && bundle exec asciidoctor-revealjs /slides/${ADOC_FILE} \
+  && ruby -run -e httpd /slides -p 2342
 

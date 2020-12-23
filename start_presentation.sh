@@ -28,8 +28,11 @@ if [ $# -ne 0 ]; then
   shift $((OPTIND -1))
 fi
 # convert adoc to slides
-podman run -e ADOC_FILE="${adoc}" -v $(pwd)/slides:/slides:Z -p 2342:2342 quay.io/tobias.michelis/asciidoctor-revealjs:latest 2>&1 >/dev/null &
-# give the server some time to come up
-sleep 10
+#podman run -e ADOC_FILE="${adoc}" -v $(pwd)/slides:/slides:Z -p 2342:2342 quay.io/tobias.michelis/asciidoctor-revealjs:latest 2>&1 >/dev/null &
+podman run -e ADOC_FILE="${adoc}" -v $(pwd)/slides:/slides:Z -p 2342:2342  localhost/asciidoctor/revealjs 2>&1 >/dev/null &
+
+# Give the server some time to come up
+sleep 2
+
 # connect with your favourite browser
 xdg-open http://localhost:2342/"${adoc%.adoc}".html
