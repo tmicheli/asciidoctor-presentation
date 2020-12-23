@@ -23,11 +23,12 @@ RUN apk add --no-cache --virtual .rubymakedepends \
 
 WORKDIR /srv/presentation
 
-RUN echo -e "source 'https://rubygems.org'\n\ngem 'asciidoctor-revealjs' , '${ASCIIDOCTOR_REVEALJS_VERSION}'" > Gemfile
-
-RUN bundle config --local github.https true \
+RUN echo -e "source 'https://rubygems.org'\n\ngem 'asciidoctor-revealjs' , '${ASCIIDOCTOR_REVEALJS_VERSION}'" > Gemfile \
+    && bundle config --local github.https true \
     && bundle --path=.bundle/gems --binstubs=.bundle/.bin \
-    && git clone -b ${REVEALJS_VERSION} --depth 1 https://github.com/hakimel/reveal.js.git
+    && git clone -b ${REVEALJS_VERSION} --depth 1 https://github.com/hakimel/reveal.js.git \
+    && mv reveal.js/css . &&  mv reveal.js/js . && mv reveal.js/plugin . \
+    && rm -rf reveal.js/* && mv css js plugin reveal.js
 
 CMD ln -s /srv/presentation/reveal.js /slides/reveal.js \
   && bundle exec asciidoctor-revealjs /slides/${ADOC_FILE} \
