@@ -29,7 +29,6 @@ if [ $# -ne 0 ]; then
 fi
 # convert adoc to slides
 podman run -e ADOC_FILE="${adoc}" -v $(pwd)/slides:/slides:Z -p 2342:2342 quay.io/tobias.michelis/asciidoctor-revealjs:latest 2>&1 >/dev/null &
-#podman run -e ADOC_FILE="${adoc}" -v $(pwd)/slides:/slides:Z -p 2342:2342  localhost/asciidoctor/revealjs 2>&1 >/dev/null &
 
 # Give the server some time to come up
 sleep 2
