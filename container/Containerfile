@@ -1,8 +1,8 @@
-FROM alpine:3.13
+FROM alpine:3.15
 
 LABEL MAINTAINER="Tobias Michelis <tobias.michelis@redhat.com>"
 
-ARG asciidoctor_revealjs_version=4.0.1
+ARG asciidoctor_revealjs_version=4.1.0
 ARG revealjs_version=3.9.2
 ENV ASCIIDOCTOR_REVEALJS_VERSION=${asciidoctor_revealjs_version}
 ENV REVEALJS_VERSION=${revealjs_version}
@@ -33,4 +33,3 @@ RUN echo -e "source 'https://rubygems.org'\n\ngem 'asciidoctor-revealjs' , '${AS
 CMD ln -s /srv/presentation/reveal.js /slides/reveal.js \
   && bundle exec asciidoctor-revealjs /slides/${ADOC_FILE} \
   && ruby -run -e httpd /slides -p 2342
-
